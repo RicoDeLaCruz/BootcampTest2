@@ -3,6 +3,7 @@ try {
     $global:ErrorActionPreference = "Stop"
     $global:RootPath = split-path -parent $MyInvocation.MyCommand.Definition
     $global:json = Get-Content "$RootPath\config.json" -Raw | ConvertFrom-Json 
+    $filePath = "$Rootpath\BypassState.txt"
     
     #---init>gui-util
         Add-Type -AssemblyName System.Windows.Forms,System.Drawing
@@ -13,10 +14,27 @@ try {
         $global:WarningIcon = [System.Windows.MessageBoxImage]::Warning
         $global:ErrorIcon = [System.Windows.MessageBoxImage]::Error
         $global:QButton = [System.Windows.MessageBoxImage]::Question
-        $global:Window.Icon = [System.Drawing.Icon]::ExtractAssociatedIcon("$RootPath\icon.png")
-        $global:HeaderImage.Source = [System.Windows.Media.Imaging.BitmapImage]::new([System.Uri] "$RootPath\icon.png")
-        $global:Gif.Source = [System.Windows.Media.Imaging.BitmapImage]::new([System.Uri] "$RootPath\header.gif")
-    
+
+        
+        function Save-CheckboxState {
+            if ($chkBypass.Checked) {
+                Set-Content -Path $filePath -Value "checked"
+            } else {
+                Set-Content -Path $filePath -Value "unchecked"
+            }
+        }
+
+        function Load-CheckboxState {
+            if (Test-Path $filePath) {
+                $checkboxState = Get-Content -Path $filePath
+                if ($checkboxState -eq "checked") {
+                    $chkBypass.Checked = $true
+                } else {
+                    $chkBypass.Checked = $false
+                }
+            }
+        }
+        
     function global:Get-Kill {
         param (
             $Mode
@@ -75,18 +93,41 @@ try {
         BackColor = $json.ToolUIBtnColor
         Text = 'START'      
     }
+    $chkBypass = New-Object System.Windows.Forms.CheckBox -Property @{
+        Location = New-Object System.Drawing.Point(160, 210)
+        Size = New-Object System.Drawing.Size(200, 20)
+        Text = "Do not show this again?"
+        Checked = $false
+    }
+    $chkBypass.Add_Click({
+        Save-CheckboxState
+    })
+    $scripticon = New-Object System.Drawing.Icon "$RootPath\icon.ico"
+    $form.Icon = $scripticon
 
     $btnStart.Add_Click({
         Write-Host "$(Get-Date -Format "HH:mm")[Log]: TOA confirm success"
         $btnStart.Hide()
         $lblTOA.Hide()
+        $chkBypass.Hide()
         $form.Controls.Add($shpDivider)
         $form.Controls.Add($lblMainMenu)
         $form.Controls.Add($btnCreate)
         $form.Controls.Add($btnRead)
         $form.Controls.Add($btnUpdate)
         $form.Controls.Add($btnDelete)
+        $form.Controls.Add($box)
     })
+
+
+    $gifpath= (Get-Item -Path "$RootPath\header.gif")
+    $img = [System.Drawing.Image]::fromfile($gifpath)
+    $box = New-Object Windows.Forms.picturebox -Property @{
+        Size = New-Object System.Drawing.Size(300,200)
+        SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
+        Location = New-Object System.Drawing.Point(150,180)
+        Image = $img
+    }
 
     $shpDivider = New-Object System.Windows.Forms.Label -Property @{
         Location = New-Object System.Drawing.Point(30,50)
@@ -99,9 +140,6 @@ try {
         Size = New-Object System.Drawing.Size(280,20)
         Font = New-Object System.Drawing.Font("Microsoft Sans Serif",9,[System.Drawing.FontStyle]::Bold)
         Text = "Group Management Tools"
-        $Gif = New-Object System.Windows.Controls.Image
-        $Gif.Stretch = "UniformToFill"
-        $Window.Background = New-Object System.Windows.Media.ImageBrush($Gif.Source)
     }
     $btnCreate = New-Object System.Windows.Forms.Button -Property @{
         Location = New-Object System.Drawing.Point(30,70)
@@ -144,10 +182,23 @@ try {
     }
 
     #---form-render
+    Load-CheckboxState
+    if (!$chkBypass.Checked) {
+        # Show the checkbox and label
+        $form.Controls.Add($chkBypass)
+        $form.Controls.Add($chkBypass)
     $form.Controls.Add($lblTOA)
     $form.Controls.Add($btnStart)
     $form.ShowDialog() | Out-Null
+        
+    }
+    else{
+        $lblTOA.Hide()
+        $chkBypass.Hide()
+        $form.Controls.Add($btnStart)
+        $form.ShowDialog() | Out-Null
     
+    }
     Get-Kill 
 }
 catch {
