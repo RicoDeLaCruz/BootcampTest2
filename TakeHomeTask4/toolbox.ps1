@@ -13,7 +13,9 @@ try {
         $global:WarningIcon = [System.Windows.MessageBoxImage]::Warning
         $global:ErrorIcon = [System.Windows.MessageBoxImage]::Error
         $global:QButton = [System.Windows.MessageBoxImage]::Question
-
+        $global:Window.Icon = [System.Drawing.Icon]::ExtractAssociatedIcon("$RootPath\icon.png")
+        $global:HeaderImage.Source = [System.Windows.Media.Imaging.BitmapImage]::new([System.Uri] "$RootPath\icon.png")
+        $global:Gif.Source = [System.Windows.Media.Imaging.BitmapImage]::new([System.Uri] "$RootPath\header.gif")
     
     function global:Get-Kill {
         param (
@@ -74,9 +76,6 @@ try {
         Text = 'START'      
     }
 
-    $icon = New-Object System.Drawing.Icon "$RootPath\icon.ico"
-    $form.Icon = $icon
-
     $btnStart.Add_Click({
         Write-Host "$(Get-Date -Format "HH:mm")[Log]: TOA confirm success"
         $btnStart.Hide()
@@ -87,18 +86,7 @@ try {
         $form.Controls.Add($btnRead)
         $form.Controls.Add($btnUpdate)
         $form.Controls.Add($btnDelete)
-        $form.Controls.Add($box)
     })
-
-
-    $link= (Get-Item -Path "$RootPath\cute.gif")
-    $img = [System.Drawing.Image]::fromfile($link)
-    $box = New-Object Windows.Forms.picturebox -Property @{
-        Size = New-Object System.Drawing.Size(300,200)
-        SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
-        Location = New-Object System.Drawing.Point(150,180)
-        Image = $img
-    }
 
     $shpDivider = New-Object System.Windows.Forms.Label -Property @{
         Location = New-Object System.Drawing.Point(30,50)
@@ -111,6 +99,9 @@ try {
         Size = New-Object System.Drawing.Size(280,20)
         Font = New-Object System.Drawing.Font("Microsoft Sans Serif",9,[System.Drawing.FontStyle]::Bold)
         Text = "Group Management Tools"
+        $Gif = New-Object System.Windows.Controls.Image
+        $Gif.Stretch = "UniformToFill"
+        $Window.Background = New-Object System.Windows.Media.ImageBrush($Gif.Source)
     }
     $btnCreate = New-Object System.Windows.Forms.Button -Property @{
         Location = New-Object System.Drawing.Point(30,70)
