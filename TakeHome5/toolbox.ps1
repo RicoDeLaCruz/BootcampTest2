@@ -367,9 +367,11 @@ $updlabel = New-Object System.Windows.Forms.Label -Property @{
                     
         })
         $updbutton.Add_Click( {
+            CheckCreatememlist
             UpdateDL
-            Write-Host "`n`n$(Get-Date -Format "HH:mm")[Log]: Clearing reading.txt file"
-            Clear-Content -path "$RootPath\reading.txt"
+            Write-Host "`n`n$(Get-Date -Format "HH:mm")[Log]: Clearing memberlist.txt file"
+            Clear-Content -path "$RootPath\memberlist.txt" 
+            Write-Output "Member" | Out-File -Filepath "$RootPath\memberlist.txt"
             Write-Host "`n`n$(Get-Date -Format "HH:mm")[Log]: UPDATE function completed"
             [System.Windows.MessageBox]::Show("UPDATE function completed","$($json.ToolName) $($json.ToolVersion)",$OKButton,$InfoIcon)
                     $form3.Close()
