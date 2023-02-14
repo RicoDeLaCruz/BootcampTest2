@@ -340,6 +340,10 @@ $updlabel = New-Object System.Windows.Forms.Label -Property @{
         Clear-Content -path "$RootPath\reading.txt"
         Write-Host "`n`n$(Get-Date -Format "HH:mm")[Log]: READ function completed"
         [System.Windows.MessageBox]::Show("READ function completed","$($json.ToolName) $($json.ToolVersion)",$OKButton,$InfoIcon)
+                $form2.Close()
+                $updbutton.Hide()
+                $textBox.Hide()
+                $readlabel.Hide()
     })
 
 
@@ -368,6 +372,10 @@ $updlabel = New-Object System.Windows.Forms.Label -Property @{
             Clear-Content -path "$RootPath\reading.txt"
             Write-Host "`n`n$(Get-Date -Format "HH:mm")[Log]: UPDATE function completed"
             [System.Windows.MessageBox]::Show("UPDATE function completed","$($json.ToolName) $($json.ToolVersion)",$OKButton,$InfoIcon)
+                    $form3.Close()
+                    $updbutton.Hide()
+                    $textBox2.Hide()
+                    $updlabel.Hide()
         })
     
     $btnDelete = New-Object System.Windows.Forms.Button -Property @{
