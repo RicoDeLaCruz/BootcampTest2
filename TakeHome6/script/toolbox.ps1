@@ -1,7 +1,7 @@
 
 try {
-    Import-Module "$RootPath\modu\rand.ps1" -Force
-                CheckKey
+    Import-Module ".\modu\rand.ps1" -Force
+    CheckKey
     #--init
     $global:ErrorActionPreference = "Stop"
     $global:RootPath = split-path -parent $MyInvocation.MyCommand.Definition
@@ -125,14 +125,7 @@ try {
         Set-Content $RootPath\deps\update.csv 'TargetDLSMTPAddress,PrimarySMTPAddress' 
         Write-Host "$(Get-Date -Format "HH:mm")[Log]: Update CSV cleared success"   
     }
-    function global:XCryptDecrypt {
     
-        $Path = "$RootPath\deps\config.json"
-        
-        $encodedText = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(Get-Content -Path $Path)))
-        Set-Content -Path $Path -value $encodedText
-    }   
-
     function global:ConEXO {
 
         try {
