@@ -1,0 +1,39 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20230301112930
+Username: G07\EnricoDeLC
+RunAs User: G07\EnricoDeLC
+Configuration Name: 
+Machine: G07PHXNWES07745 (Microsoft Windows NT 10.0.19044.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command Import-Module 'c:\Users\EnricoDeLC\.vscode\extensions\ms-vscode.powershell-2023.2.1\modules\PowerShellEditorServices\PowerShellEditorServices.psd1'; Start-EditorServices -HostName 'Visual Studio Code Host' -HostProfileId 'Microsoft.VSCode' -HostVersion '2023.2.1' -AdditionalModules @('PowerShellEditorServices.VSCode') -BundledModulesPath 'c:\Users\EnricoDeLC\.vscode\extensions\ms-vscode.powershell-2023.2.1\modules' -EnableConsoleRepl -StartupBanner "PowerShell Extension v2023.2.1
+Copyright (c) Microsoft Corporation.
+
+https://aka.ms/vscode-powershell
+Type 'help' to get help.
+" -LogLevel 'Normal' -LogPath 'c:\Users\EnricoDeLC\AppData\Roaming\Code\User\globalStorage\ms-vscode.powershell\logs\1677640237-f36c7139-9861-41c7-8413-eadd93c2ab831677640235914\EditorServices.log' -SessionDetailsPath 'c:\Users\EnricoDeLC\AppData\Roaming\Code\User\globalStorage\ms-vscode.powershell\sessions\PSES-VSCode-23312-479908.json' -FeatureFlags @() 
+Process ID: 20864
+PSVersion: 5.1.19041.1682
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.19041.1682
+BuildVersion: 10.0.19041.1682
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+
+------------------BEGIN ROOT-------------------------
+11:29[Log]: Form init success
+11:29[Log]: EXO connection skipped
+11:29[Log]: Form closed
+11:29[Log]: Create CSV cleared success
+11:29[Log]: Update CSV cleared success
+INFO: Disconnected successfully !
+11:29[Log]: EXO disconnected success
+
+------------------END ROOT-------------------------
+**********************
+Windows PowerShell transcript end
+End time: 20230301112935
+**********************
